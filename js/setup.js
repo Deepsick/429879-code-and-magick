@@ -51,9 +51,6 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .querySelector('.setup-similar-item');
 document.querySelector('.setup-similar').classList.remove('hidden');
 
-/**
- * Закрываем попап .setup, если нажат esc
- */
 var popupEscPressHadler = function (evt) {
   if (evt.keyCode === KEY_CODES.esc) {
     closePopup();
