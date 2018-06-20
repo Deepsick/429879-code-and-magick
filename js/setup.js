@@ -50,10 +50,11 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .content
     .querySelector('.setup-similar-item');
 document.querySelector('.setup-similar').classList.remove('hidden');
+
 var SETUP_START_COORDS = {
   x: setup.style.left,
   y: setup.style.top
-}
+};
 
 var popupEscPressHadler = function (evt) {
   if (evt.keyCode === KEY_CODES.esc) {
