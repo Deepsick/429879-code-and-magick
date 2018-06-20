@@ -51,6 +51,11 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .querySelector('.setup-similar-item');
 document.querySelector('.setup-similar').classList.remove('hidden');
 
+var SETUP_START_COORDS = {
+  x: setup.style.left,
+  y: setup.style.top
+};
+
 var popupEscPressHadler = function (evt) {
   if (evt.keyCode === KEY_CODES.esc) {
     closePopup();
@@ -77,6 +82,8 @@ var openPopup = function () {
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', popupEscPressHadler);
+  setup.style.left = SETUP_START_COORDS.x;
+  setup.style.top = SETUP_START_COORDS.y;
 };
 
 setupOpen.addEventListener('click', function () {
