@@ -8,9 +8,9 @@
    */
   var createWizard = function () {
     var wizard = {
-      name: window.getRandomElement(window.data.NAMES) + ' ' + window.getRandomElement(window.data.LAST_NAMES),
-      coatColor: window.getRandomElement(window.data.COAT_COLORS),
-      eyesColor: window.getRandomElement(window.data.EYES_COLORS)
+      name: window.utils.getRandomElement(window.data.NAMES) + ' ' + window.utils.getRandomElement(window.data.LAST_NAMES),
+      coatColor: window.utils.getRandomElement(window.data.COAT_COLORS),
+      eyesColor: window.utils.getRandomElement(window.data.EYES_COLORS)
     };
     return wizard;
   };
@@ -49,4 +49,23 @@
   }
 
   similarListElement.appendChild(fragment);
+
+  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
+  var wizardEyeslInput = document.querySelector('.setup-wizard-appearance input[name = "eyes-color"]');
+  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+  var wizardCoatlInput = document.querySelector('.setup-wizard-appearance input[name = "coat-color"]');
+  var wizardFireball = document.querySelector('.setup-fireball-wrap');
+  var wizardFireballInput = wizardFireball.querySelector('input');
+
+  wizardCoat.addEventListener('click', function () {
+    wizardCoatlInput.value = window.utils.changeColor(wizardCoat, 'fill', window.data.COAT_COLORS);
+  });
+
+  wizardEyes.addEventListener('click', function () {
+    wizardEyeslInput.value = window.utils.changeColor(wizardEyes, 'fill', window.data.EYES_COLORS);
+  });
+
+  wizardFireball.addEventListener('click', function () {
+    wizardFireballInput.value = window.utils.changeColor(wizardFireball, 'background-color', window.data.FIREBALL_COLORS);
+  });
 })();
