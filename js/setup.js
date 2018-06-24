@@ -74,7 +74,7 @@
 
   var form = setup.querySelector('.setup-wizard-form');
   form.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(form), successHandler, window.backend.errorhandler);
+    window.backend.save(new FormData(form), successHandler, window.backend.errorHandler);
     evt.preventDefault();
   });
 })();

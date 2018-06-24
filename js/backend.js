@@ -56,7 +56,7 @@
    * Показываем окно с ошибкой, если данные не загрузились
    * @param  {String} errorMessage
    */
-  var errorhandler = function (errorMessage) {
+  var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -71,6 +71,6 @@
   window.backend = {
     load: load,
     save: save,
-    errorhandler: errorhandler
+    errorHandler: errorHandler
   };
 })();

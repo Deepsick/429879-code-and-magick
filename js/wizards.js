@@ -67,7 +67,7 @@
     showSimilarList();
   };
 
-  window.backend.load(successHandler, window.backend.errorhandler);
+  window.backend.load(successHandler, window.backend.errorHandler);
 
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardEyeslInput = document.querySelector('.setup-wizard-appearance input[name = "eyes-color"]');
