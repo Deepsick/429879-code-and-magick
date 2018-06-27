@@ -68,13 +68,17 @@
     }
   });
 
+  /**
+   * Скрываем окно с настройками персонажа
+   */
   var successHandler = function () {
     setup.classList.add('hidden');
   };
 
   var form = setup.querySelector('.setup-wizard-form');
   form.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(form), successHandler, window.backend.errorHandler);
+    var url = 'https://js.dump.academy/code-and-magick';
+    window.backend.postData(url, new FormData(form), successHandler, window.utils.errorHandler);
     evt.preventDefault();
   });
 })();

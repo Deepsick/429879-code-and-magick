@@ -67,7 +67,8 @@
     showSimilarList();
   };
 
-  window.backend.load(successHandler, window.backend.errorHandler);
+  var url = 'https://js.dump.academy/code-and-magick/data';
+  window.backend.getData(url, successHandler, window.utils.errorHandler);
 
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardEyeslInput = document.querySelector('.setup-wizard-appearance input[name = "eyes-color"]');

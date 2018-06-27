@@ -2,10 +2,18 @@
 
 (function () {
 
-  var load = function (onLoad, onError) {
-    var URL = ' https://js.dump.academy/code-and-magick/data';
+  /**
+   * Создаем ajax-запрос к серверу
+   * @param  {String} method
+   * @param  {Any} data
+   * @param  {String} url
+   * @param  {Function} onLoad
+   * @param  {Function} onError
+   */
+  var accessSever = function (method, data, url, onLoad, onError) {
 
     var xhr = new XMLHttpRequest();
+
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
@@ -15,6 +23,7 @@
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
+
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
@@ -24,53 +33,38 @@
 
     xhr.timeout = 10000;
 
-    xhr.open('GET', URL);
-    xhr.send();
-  };
+    xhr.open(method, url);
 
-  var save = function (data, onLoad, onError) {
-    var URL = 'https://js.dump.academy/code-and-magick';
-
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      onLoad(xhr.response);
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-
-    xhr.timeout = 10000;
-
-    xhr.open('POST', URL);
-    xhr.send(data);
+    if (data) {
+      xhr.send(data);
+    } else {
+      xhr.send();
+    }
   };
 
   /**
-   * Показываем окно с ошибкой, если данные не загрузились
-   * @param  {String} errorMessage
+   * Отправляем данные на сервер POST-запросом
+   * @param  {String} url
+   * @param  {Any} data
+   * @param  {Function} onLoad
+   * @param  {Function} onError
    */
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
+  var postData = function (url, data, onLoad, onError) {
+    accessSever('POST', data, url, onLoad, onError);
+  };
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+  /**
+   * Получаем данные от сервера GET-запросом
+   * @param  {String} url
+   * @param  {Function} onLoad
+   * @param  {Function} onError
+   */
+  var getData = function (url, onLoad, onError) {
+    accessSever('GET', false, url, onLoad, onError);
   };
 
   window.backend = {
-    load: load,
-    save: save,
-    errorHandler: errorHandler
+    postData: postData,
+    getData: getData,
   };
 })();

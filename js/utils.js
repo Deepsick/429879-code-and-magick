@@ -29,8 +29,25 @@
     return color;
   };
 
+  /**
+   * Показываем окно с ошибкой, если данные не загрузились
+   * @param  {String} errorMessage
+   */
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   window.utils = {
     getRandomElement: getRandomElement,
-    changeColor: changeColor
+    changeColor: changeColor,
+    errorHandler: errorHandler
   };
 })();
