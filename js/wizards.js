@@ -6,26 +6,32 @@
    * Создаем волшебника
    * @return {Object}
    */
-  var createWizard = function () {
-    var wizard = {
-      name: window.utils.getRandomElement(window.data.NAMES) + ' ' + window.utils.getRandomElement(window.data.LAST_NAMES),
-      coatColor: window.utils.getRandomElement(window.data.COAT_COLORS),
-      eyesColor: window.utils.getRandomElement(window.data.EYES_COLORS)
-    };
-    return wizard;
-  };
+  // var createWizard = function () {
+  //   var wizard = {
+  //     name: window.utils.getRandomElement(window.data.NAMES) + ' ' + window.utils.getRandomElement(window.data.LAST_NAMES),
+  //     coatColor: window.utils.getRandomElement(window.data.COAT_COLORS),
+  //     eyesColor: window.utils.getRandomElement(window.data.EYES_COLORS)
+  //   };
+  //   return wizard;
+  // };
 
-  var wizards = [];
-  for (var i = 0; i < window.data.WIZARDS_AMOUNT; i++) {
-    var newWizard = createWizard();
-    wizards.push(newWizard);
-  }
+  // var wizards = [];
+  // for (var i = 0; i < window.data.WIZARDS_AMOUNT; i++) {
+  //   var newWizard = createWizard();
+  //   wizards.push(newWizard);
+  // }
 
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template')
       .content
       .querySelector('.setup-similar-item');
-  document.querySelector('.setup-similar').classList.remove('hidden');
+
+  /**
+   * Скрываем блок с похожими волшебниками
+   */
+  var showSimilarList = function () {
+    document.querySelector('.setup-similar').classList.remove('hidden');
+  };
 
   /**
    * Создаем Html-node волшебника
@@ -36,19 +42,33 @@
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardElement;
   };
 
-  var fragment = document.createDocumentFragment();
+  /**
+   * Показываем похожих магов на основе данных с сервера
+   * @param  {Array} wizards
+   */
+  var successHandler = function (wizards) {
+    var fragment = document.createDocumentFragment();
+    var listWizards = wizards.slice();
 
-  for (var j = 0; j < wizards.length; j++) {
-    fragment.appendChild(renderWizard(wizards[j]));
-  }
+    for (var j = 0; j < window.data.WIZARDS_AMOUNT; j++) {
+      var wizard = window.utils.getRandomElement(listWizards);
+      fragment.appendChild(renderWizard(wizard));
+      var wizardIndex = listWizards.indexOf(wizard);
+      listWizards.splice(wizardIndex, 1);
+    }
+    similarListElement.appendChild(fragment);
 
-  similarListElement.appendChild(fragment);
+    showSimilarList();
+  };
+
+  var url = 'https://js.dump.academy/code-and-magick/data';
+  window.backend.getData(url, successHandler, window.utils.errorHandler);
 
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardEyeslInput = document.querySelector('.setup-wizard-appearance input[name = "eyes-color"]');
