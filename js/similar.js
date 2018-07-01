@@ -41,14 +41,14 @@
   wizardCoat.addEventListener('click', function () {
     coatColor = window.utils.changeColor(wizardCoat, 'fill', window.data.COAT_COLORS);
     wizardCoatlInput.value = coatColor;
-    updateWizards();
+    window.debounce(updateWizards);
   });
 
   var eyeColor;
   wizardEyes.addEventListener('click', function () {
     eyeColor = window.utils.changeColor(wizardEyes, 'fill', window.data.EYES_COLORS);
     wizardEyeslInput.value = eyeColor;
-    updateWizards();
+    window.debounce(updateWizards);
   });
 
   wizardFireball.addEventListener('click', function () {
