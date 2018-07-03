@@ -2,25 +2,6 @@
 
 (function () {
 
-  /**
-   * Создаем волшебника
-   * @return {Object}
-   */
-  // var createWizard = function () {
-  //   var wizard = {
-  //     name: window.utils.getRandomElement(window.data.NAMES) + ' ' + window.utils.getRandomElement(window.data.LAST_NAMES),
-  //     coatColor: window.utils.getRandomElement(window.data.COAT_COLORS),
-  //     eyesColor: window.utils.getRandomElement(window.data.EYES_COLORS)
-  //   };
-  //   return wizard;
-  // };
-
-  // var wizards = [];
-  // for (var i = 0; i < window.data.WIZARDS_AMOUNT; i++) {
-  //   var newWizard = createWizard();
-  //   wizards.push(newWizard);
-  // }
-
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template')
       .content
@@ -48,44 +29,22 @@
     return wizardElement;
   };
 
-  /**
-   * Показываем похожих магов на основе данных с сервера
-   * @param  {Array} wizards
-   */
-  var successHandler = function (wizards) {
+  var render = function (wizardsList) {
     var fragment = document.createDocumentFragment();
-    var listWizards = wizards.slice();
-
-    for (var j = 0; j < window.data.WIZARDS_AMOUNT; j++) {
-      var wizard = window.utils.getRandomElement(listWizards);
+    var list = wizardsList.slice();
+    for (var i = 0; i < window.data.WIZARDS_AMOUNT; i++) {
+      var wizard = list[0];
       fragment.appendChild(renderWizard(wizard));
-      var wizardIndex = listWizards.indexOf(wizard);
-      listWizards.splice(wizardIndex, 1);
+      var wizardIndex = list.indexOf(wizard);
+      list.splice(wizardIndex, 1);
     }
+    similarListElement.innerHTML = '';
     similarListElement.appendChild(fragment);
 
     showSimilarList();
   };
 
-  var url = 'https://js.dump.academy/code-and-magick/data';
-  window.backend.getData(url, successHandler, window.utils.errorHandler);
-
-  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
-  var wizardEyeslInput = document.querySelector('.setup-wizard-appearance input[name = "eyes-color"]');
-  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-  var wizardCoatlInput = document.querySelector('.setup-wizard-appearance input[name = "coat-color"]');
-  var wizardFireball = document.querySelector('.setup-fireball-wrap');
-  var wizardFireballInput = wizardFireball.querySelector('input');
-
-  wizardCoat.addEventListener('click', function () {
-    wizardCoatlInput.value = window.utils.changeColor(wizardCoat, 'fill', window.data.COAT_COLORS);
-  });
-
-  wizardEyes.addEventListener('click', function () {
-    wizardEyeslInput.value = window.utils.changeColor(wizardEyes, 'fill', window.data.EYES_COLORS);
-  });
-
-  wizardFireball.addEventListener('click', function () {
-    wizardFireballInput.value = window.utils.changeColor(wizardFireball, 'background-color', window.data.FIREBALL_COLORS);
-  });
+  window.wizards = {
+    render: render
+  };
 })();
